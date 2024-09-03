@@ -24,13 +24,31 @@ async function openWebPage() {
   await page.evaluate(selector => {
     document.querySelector(selector).scrollIntoView();
   }, messageInputSelector);
-  
-  // Enfoca el campo de entrada y escribe el mensaje
-  await page.focus(messageInputSelector);
-  await page.type(messageInputSelector, 'when bro when');
 
-  // Opcional: Enviar el mensaje presionando Enter (depende de cómo funciona el chat)
-  await page.keyboard.press('Enter');
+  const messages = [
+    'W',
+    'Good luck for everyone today guys',
+    'When bro, when',
+    'Fruit party is due bro',
+    'Today its gonna be the day '
+  ]
+  
+  async function sendMessage() {
+    const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+
+    // Enfoca el campo de entrada y escribe el mensaje
+    await page.focus(messageInputSelector);
+    await page.type(messageInputSelector, randomMessage);
+
+    // Opcional: Enviar el mensaje presionando Enter
+    await page.keyboard.press('Enter');
+  }
+
+  await sendMessage();
+  
+  setInterval(async()=>{
+    await sendMessage();
+  }, 60000)
 
   // Esto sería para cerrar el navegador
   // await browser.close();
